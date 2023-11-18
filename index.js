@@ -54,6 +54,7 @@ async function run() {
       const result = await serviceCollection.findOne(query)
       res.send(result)
     })
+
     //update services
    app.get('/services',async(req, res) => {
     let query = {}
@@ -65,13 +66,16 @@ async function run() {
       res.send(result)
 
    })
-   app.get('/purchase/:id',async(req, res) => {
-    const id = req.params.id;
-    const query = {_id: new ObjectId(id)}
-    const result = await serviceCollection.findOne(query)
-    res.send(result)
-  })
-  
+
+    app.get('/purchase/:id',async(req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await serviceCollection.findOne(query)
+      res.send(result)
+    })
+
+
+
     //purchase
     app.get('/purchase', async(req, res) => {
       console.log(req.query?.email);
@@ -92,6 +96,7 @@ async function run() {
         const result = await bookingCollection.insertOne(booking)
         res.send(result)
       })
+
       app.delete('/purchase/:id', async(req,res) => {
         const id = req.params.id;
         const query = {_id: new ObjectId(id)}
