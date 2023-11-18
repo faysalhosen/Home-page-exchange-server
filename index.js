@@ -71,3 +71,55 @@ async function run() {
     const result = await serviceCollection.findOne(query)
     res.send(result)
   })
+  
+    //purchase
+    app.get('/purchase', async(req, res) => {
+      console.log(req.query?.email);
+      let query = {};
+      if(req.query){
+        query = {email:req.query.email}
+      }
+      const result = await bookingCollection.find(query).toArray();
+      res.send(result)
+    })
+
+
+    
+    // purchase
+      app.post('/purchase', async(req, res) =>{
+        const booking = req.body;
+        console.log(booking);
+        const result = await bookingCollection.insertOne(booking)
+        res.send(result)
+      })
+      app.delete('/purchase/:id', async(req,res) => {
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)}
+        const result = await bookingCollection.deleteOne(query)
+        res.send(result)
+      })
+
+
+   
+
+      
+
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    // await client.close();
+  }
+}
+run().catch(console.dir);
+
+
+
+app.get('/', (req, res) => {
+    res.send('Home Service is running')
+})
+
+app.listen(port, () => {
+    console.log(`Home Service Exchange  is running on port ${port}`);
+})
