@@ -54,3 +54,14 @@ async function run() {
       const result = await serviceCollection.findOne(query)
       res.send(result)
     })
+    //update services
+   app.get('/services',async(req, res) => {
+    let query = {}
+    if(req.query?.email){
+      query = {email: req.query?.email}
+    }
+    const result = await serviceCollection.find(query).toArray()
+    console.log(req.query.email)
+      res.send(result)
+
+   })
