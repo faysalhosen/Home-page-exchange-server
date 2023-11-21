@@ -69,10 +69,10 @@ async function run() {
 
     app.get('/purchase/:id',async(req, res) => {
       const id = req.params.id;
-      const query = {_id: new ObjectId(id)}
-      const result = await serviceCollection.findOne(query)
-      res.send(result)
-    })
+      const query = {_id: new ObjectId(id)};
+      const result = await bookingCollection.findOne(query);
+      res.send(result);
+    });
 
 
 
@@ -84,8 +84,8 @@ async function run() {
         query = {email:req.query.email}
       }
       const result = await bookingCollection.find(query).toArray();
-      res.send(result)
-    })
+      res.send(result);
+    });
 
 
     
@@ -104,6 +104,25 @@ async function run() {
         res.send(result)
       })
 
+
+      app.put('/purchase/:id', async (req, res) => {
+        const id = req.params.id;
+        const filter = {_id: new ObjectId(id)};
+        const options = {upsert: true};
+        const updatedServices = req.body;
+        const services = {
+          $set: {
+            serviceName: updatedServices.serviceName,
+            email: updatedServices.email,
+            date: updatedServices.date,
+            price: updatedServices.price,
+            serviceArea: updatedServices.serviceArea,
+            photo: updatedServices.photo
+          }
+        }
+        const result = await bookingCollection.updateOne(filter, services, options)
+        res.send(result);
+      })
 
    
 
