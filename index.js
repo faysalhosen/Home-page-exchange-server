@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 app.use(cors({
   origin: [
     'http://localhost:5173',
-   'https://home-page-exchange.web.app',
+   'https://home-page-exchange-c76d3.web.app/',
    'https://home-page-exchange.firebaseapp.com'
   ],
   credentials: true
