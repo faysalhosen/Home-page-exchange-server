@@ -11,8 +11,8 @@ const cookieParser = require('cookie-parser');
 app.use(cors({
   origin: [
     'http://localhost:5173',
-   'https://home-page-exchange-c76d3.web.app/',
-   'https://home-page-exchange.firebaseapp.com'
+   'https://home-page-exchange-7e278.web.app/',
+   'home-page-exchange-7e278.firebaseapp.com'
   ],
   credentials: true
 }));
@@ -23,6 +23,7 @@ console.log(process.env.DB_PASS);
 
 
 
+//const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.wzxk65v.mongodb.net/?retryWrites=true&w=majority`;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.wzxk65v.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -36,7 +37,6 @@ const client = new MongoClient(uri, {
 
 const verifyToken = async (req, res, next) => {
   const token = req.cookies?.token;
-  console.log(token)
   if(!token){
     return res.status(401).send({message: 'not authorized'});
   }
@@ -93,6 +93,7 @@ async function run() {
     })
 
     app.get('/purchase/:id', async (req, res) => {
+      console.log(Helloooooo)
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await bookingCollection.findOne(query);
@@ -102,12 +103,12 @@ async function run() {
 
 
     //purchase
-    app.get('/purchase', verifyToken, async (req, res) => {
-     console.log(req.query.email,req.user)
-      if(req.query.email !== req.user){
+    app.get('/purchase', async (req, res) => {
+  
+      // if(req.query.email !== req.user){
     
-        return res.status(403).send({message: 'forbidden Access'})
-      }
+      //   return res.status(403).send({message: 'forbidden Access'})
+      // }
       let query = {};
       if (req.query.email) {
         query = { email: req.query.email }
@@ -132,7 +133,6 @@ async function run() {
     // purchase
     app.post('/purchase', async (req, res) => {
       const booking = req.body;
-      console.log(booking);
       const result = await bookingCollection.insertOne(booking)
       res.send(result)
     })
